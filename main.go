@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
@@ -14,11 +13,6 @@ import (
 	"market/mainApp"
 	"os"
 )
-
-type Data struct {
-	ID       string
-	Password string
-}
 
 func main() {
 
@@ -54,10 +48,7 @@ func main() {
 		LoginId := ID.Widget.(*widget.Entry).Text
 		LoginPassword := Password.Widget.(*widget.Entry).Text
 
-		User := fmt.Sprintf("User\\%s.txt", LoginId)
-		var data []Data
-		data_file, _ := os.ReadFile(User)
-		json.Unmarshal(data_file, &data)
+		data := Logic.ImportData(LoginId)
 
 		for _, login := range data {
 			if login.ID == LoginId && login.Password == LoginPassword {

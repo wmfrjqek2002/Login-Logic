@@ -6,16 +6,12 @@ import (
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
 	"image/color"
+	"market/Logic"
 )
 
-type Data struct {
-	ID       string
-	Password string
-	Name     string
-	Phone    string
-}
-
 func App(a fyne.App, w fyne.Window, UserID string) {
+
+	admin := Logic.ImportData(UserID)
 
 	window := a.NewWindow("hello")
 	window.Resize(fyne.NewSize(600, 500))
@@ -26,10 +22,19 @@ func App(a fyne.App, w fyne.Window, UserID string) {
 
 	})
 	User_Manager := widget.NewButton("사용자 관리", func() {
-
+		UserManager(a)
 	})
+
 	User_Manager.Resize(fyne.NewSize(100, 30))
 	User_Manager.Move(fyne.NewPos(390, 0))
+
+	for _, Check_Admin := range admin {
+		if Check_Admin.Admin.Privilege == false {
+			User_Manager.Hide()
+		} else if Check_Admin.Admin.Privilege == true {
+			User_Manager.Show()
+		}
+	}
 
 	info_Modic := widget.NewButton("정보수정", func() {
 		InfoModict(a, UserID)

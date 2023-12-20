@@ -4,39 +4,22 @@ import (
 	"encoding/json"
 	"fmt"
 	"fyne.io/fyne/v2"
-	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
-	"image/color"
 	"os"
+	"strings"
 )
 
-type Data struct {
-	ID       string
-	Password string
-	Name     string
-	Phone    string
-	Admin    struct {
-		Privilege bool `json:"Privilege"`
-	} `json:"Admin"`
-}
+func showData(a fyne.App, fileName string, jsonData []Data) {
+	filemultxt := strings.TrimSuffix(fileName, ".txt")
+	window := a.NewWindow(filemultxt)
 
-func InfoModict(a fyne.App, UserID string) {
-	w := a.NewWindow("정보수정")
-	w.Resize(fyne.NewSize(300, 200))
-
-	title_L := canvas.NewText("정보수정", color.White)
-	title_L.TextSize = 30
-
-	var data []Data
 	var TempData []Data
-	User := fmt.Sprintf("User\\%s.txt", UserID)
-	UserFile, _ := os.ReadFile(User)
-	json.Unmarshal(UserFile, &data)
 
-	UserPassword := data[0].Password
-	UserName := data[0].Name
-	UserPhone := data[0].Phone
+	UserID := jsonData[0].ID
+	UserPassword := jsonData[0].Password
+	UserName := jsonData[0].Name
+	UserPhone := jsonData[0].Phone
 
 	IdEntry := widget.NewEntry()
 	IdEntry.Text = UserID
@@ -63,29 +46,34 @@ func InfoModict(a fyne.App, UserID string) {
 		}
 		TempData = append(TempData, *NewData)
 
-		data = TempData
+		jsonData = TempData
 
-		result, _ := json.MarshalIndent(data, "", " ")
+		result, _ := json.MarshalIndent(jsonData, "", " ")
+
+		User := fmt.Sprintf("User\\%s", filemultxt)
 
 		os.WriteFile(User, result, 0644)
 
 		completeWindow := fyne.CurrentApp().NewWindow("완료")
 		CompleteLabel := widget.NewLabel("변경되었습니다.")
 		CwBtn := widget.NewButton("확인", func() {
-			w.Close()
+			window.Close()
 			completeWindow.Close()
 		})
 		completeWindow.SetContent(container.NewVBox(CompleteLabel, CwBtn))
 		completeWindow.Show()
 
+		window.Show()
+
 	})
 
 	Cancle := widget.NewButton("취소", func() {
-		w.Close()
+		window.Close()
 	})
 
 	buttons := container.NewHBox(Complete, Cancle)
 
-	w.SetContent(container.NewVBox(IdEntry, PassEntry, NameEntry, PhoneEntry, buttons))
-	w.Show()
+	window.SetContent(container.NewVBox(IdEntry, PassEntry, NameEntry, PhoneEntry, buttons))
+	window.Show()
+
 }
