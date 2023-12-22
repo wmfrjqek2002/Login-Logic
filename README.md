@@ -22,3 +22,8 @@ It does not work on the server, it is only implemented locally.
 
 ## Implementation
   ![Logic_img](https://github.com/wmfrjqek2002/Login-Logic/assets/151695334/cf40dc9e-ed0e-45c0-a3c8-f9cd011e8e7f)
+
+  ![encodingLogic](https://github.com/wmfrjqek2002/Login-Logic/assets/151695334/8b7101f4-038d-48c4-926f-549d7a8689db)
+
+
+
