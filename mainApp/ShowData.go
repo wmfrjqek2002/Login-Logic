@@ -13,6 +13,7 @@ import (
 func showData(a fyne.App, fileName string, jsonData []Data) {
 	filemultxt := strings.TrimSuffix(fileName, ".txt")
 	window := a.NewWindow(filemultxt)
+	window.Resize(fyne.NewSize(300, 300))
 
 	var TempData []Data
 
@@ -71,7 +72,28 @@ func showData(a fyne.App, fileName string, jsonData []Data) {
 		window.Close()
 	})
 
-	buttons := container.NewHBox(Complete, Cancle)
+	Dlt := widget.NewButton("삭제", func() {
+		confirmWindow := fyne.CurrentApp().NewWindow("확인")
+		ConfirmLabel := widget.NewLabel("정말로 삭제하시겠습니까?")
+		ConfirmYesBtn := widget.NewButton("예", func() {
+			UserFilePath := fmt.Sprintf("User\\%s.txt", filemultxt)
+			err := os.Remove(UserFilePath)
+			if err != nil {
+				fmt.Println("파일 삭제 오류:", err)
+			} else {
+				confirmWindow.Close()
+				window.Close()
+				// 여기에 필요한 추가 작업을 수행하세요.
+			}
+		})
+		ConfirmNoBtn := widget.NewButton("아니오", func() {
+			confirmWindow.Close()
+		})
+		confirmWindow.SetContent(container.NewVBox(ConfirmLabel, ConfirmYesBtn, ConfirmNoBtn))
+		confirmWindow.Show()
+	})
+
+	buttons := container.NewHBox(Complete, Cancle, Dlt)
 
 	window.SetContent(container.NewVBox(IdEntry, PassEntry, NameEntry, PhoneEntry, buttons))
 	window.Show()
