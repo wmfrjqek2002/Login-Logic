@@ -17,8 +17,7 @@ It does not work on the server, it is only implemented locally.
   ![image](https://github.com/wmfrjqek2002/Login-Logic/assets/151695334/bebbf48c-87a2-42d6-a9ec-188d8d52040a)
 
 + ## 5.Manage users in Admin window
-  To be implemented and check in later
-
+  ![image](https://github.com/wmfrjqek2002/Login-Logic/assets/151695334/8f08dadd-ad64-4aa5-9cbf-07c5a6a642d8)
 
 
 ## Implementation
