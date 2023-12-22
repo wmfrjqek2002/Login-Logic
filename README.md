@@ -1,5 +1,5 @@
 # Login Logic
-We implemented the login logic using the fyne toolkit, a GUI framework in the go language.
+I implemented the login logic using the fyne toolkit, a GUI framework in the go language.
 It does not work on the server, it is only implemented locally.
 
 # Images
